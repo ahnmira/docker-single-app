@@ -1,0 +1,18 @@
+#Travis CI에서 관리자 권한 갖기
+sudo: required
+
+#
+language: generric
+
+services:
+  - docker
+
+before_install:
+  - echo "start creating an image with dockerfile"
+  - docker build -t ahn/docker-single-app -f Dockerfile.dev
+
+script:
+  - docker run -e CI=true ahn/docker-single-app npm run test -- --coverage
+
+after_success:
+  - echo "Test Success"
